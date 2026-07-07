@@ -1,0 +1,4 @@
+project: eden
+target: range_octopus
+cmds:
+    - cmd: /mayhem/range_octopus

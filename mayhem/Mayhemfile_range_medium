@@ -1,0 +1,4 @@
+project: eden
+target: range_medium
+cmds:
+    - cmd: /mayhem/range_medium

@@ -1,0 +1,4 @@
+project: eden
+target: range_small
+cmds:
+    - cmd: /mayhem/range_small

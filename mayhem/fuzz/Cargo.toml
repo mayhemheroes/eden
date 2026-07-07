@@ -1,0 +1,69 @@
+# Additive Mayhem cargo-fuzz crate for the sapling-dag segmented-DAG fuzz targets.
+# Upstream (facebook/sapling) ships eden/scm/lib/dag/fuzz/fuzz_targets/*.rs + a BUCK
+# file but NO cargo manifest (it builds them with Buck2). This crate provides the
+# cargo-fuzz manifest so Mayhem can build the same 7 targets, referencing the upstream
+# sources by path — nothing under eden/ is modified.
+[package]
+name = "dag-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+bindag = { path = "../../eden/scm/lib/dag/bindag", package = "sapling-bindag" }
+libfuzzer-sys = "0.4"
+
+# Isolate from the surrounding Sapling monorepo (path deps may live in it).
+[workspace]
+members = ["."]
+
+[profile.release]
+debug = true
+
+[[bin]]
+name = "gca"
+# Additive Mayhem variant (bounded-slice context) — see mayhem/fuzz/fuzz_targets/gca.rs
+# for why the upstream full-MOZILLA gca.rs cannot fuzz under Mayhem. Other targets keep
+# referencing the upstream sources unchanged.
+path = "fuzz_targets/gca.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "gca_small"
+path = "../../eden/scm/lib/dag/fuzz/fuzz_targets/gca_small.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "gca_octopus"
+path = "../../eden/scm/lib/dag/fuzz/fuzz_targets/gca_octopus.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "range"
+path = "../../eden/scm/lib/dag/fuzz/fuzz_targets/range.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "range_medium"
+path = "../../eden/scm/lib/dag/fuzz/fuzz_targets/range_medium.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "range_octopus"
+path = "../../eden/scm/lib/dag/fuzz/fuzz_targets/range_octopus.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "range_small"
+path = "../../eden/scm/lib/dag/fuzz/fuzz_targets/range_small.rs"
+test = false
+doc = false
